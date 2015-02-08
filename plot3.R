@@ -1,8 +1,16 @@
 
 # ============ LOAD DATA
-# Note:  To run this script, must also include the file "plotLoadData.R" 
-#        in workding directory.  This file used to load the data
-source("plotLoadData.R")
+data <- read.table("household_power_consumption.txt", header=TRUE, sep=";")
+
+# Convert data
+data$Date<- as.Date(as.character(data$Date), "%d/%m/%Y")
+data$Sub_metering_1<- suppressWarnings(as.numeric(as.character(data$Sub_metering_1)))
+data$Sub_metering_2<- suppressWarnings(as.numeric(as.character(data$Sub_metering_2)))
+data$Sub_metering_3<- suppressWarnings(as.numeric(as.character(data$Sub_metering_3)))
+
+# Subselect data
+sdata <- subset(data, Date >= as.Date("2007-02-01") & Date <= as.Date("2007-02-02"))
+ROWLENGTH <- length(sdata$Date)
 
 # ============ Save to PNG
 png(filename="plot3.png",
